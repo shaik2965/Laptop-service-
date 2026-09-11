@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Steadfast Laptop Repair — Diagnostics, Repairs, Tune-Ups</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#12181F;
+    --slate:#1B2430;
+    --slate-2:#242F3D;
+    --paper:#F0ECE2;
+    --paper-2:#E6E0D2;
+    --amber:#E8A33D;
+    --amber-dark:#C7852A;
+    --grey:#8A94A6;
+    --green:#4A7C59;
+    --line:#3A4657;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{
+    font-family:'Oswald',sans-serif;
+    margin:0;
+    letter-spacing:0.01em;
+    color:var(--ink);
+  }
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  a{color:inherit;}
+  img,svg{display:block;max-width:100%;}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px;}
+  :focus-visible{outline:3px solid var(--amber);outline-offset:2px;}
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important;transition:none !important;}
+  }
+
+  /* ---------- NAV ---------- */
+  .nav{
+    background:var(--slate);
+    color:var(--paper);
+    position:sticky;top:0;z-index:50;
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    max-width:1120px;margin:0 auto;padding:16px 24px;
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .brand{display:flex;align-items:center;gap:10px;}
+  .brand-mark{
+    width:30px;height:30px;border:2px solid var(--amber);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'IBM Plex Mono';font-size:13px;font-weight:600;color:var(--amber);
+    flex-shrink:0;
+  }
+  .brand-name{font-family:'Oswald';font-size:19px;font-weight:600;color:var(--paper);}
+  .nav-links{display:flex;gap:28px;font-size:14px;}
+  .nav-links a{text-decoration:none;color:var(--grey);transition:color .15s;}
+  .nav-links a:hover{color:var(--paper);}
+  .nav-cta{
+    background:var(--amber);color:var(--ink);padding:9px 18px;
+    text-decoration:none;font-size:14px;font-weight:600;
+    border:none;cursor:pointer;font-family:'Inter';
+  }
+  .nav-cta:hover{background:var(--amber-dark);}
+  .menu-toggle{display:none;background:none;border:none;color:var(--paper);font-size:24px;cursor:pointer;}
+
+  @media (max-width:760px){
+    .nav-links{display:none;}
+    .menu-toggle{display:block;}
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    background:var(--slate);
+    color:var(--paper);
+    padding:64px 0 80px;
+    position:relative;
+    overflow:hidden;
+    border-bottom:1px solid var(--line);
+  }
+  .circuit-bg{
+    position:absolute;inset:0;opacity:0.12;pointer-events:none;
+  }
+  .hero-grid{
+    display:grid;grid-template-columns:1.1fr 0.9fr;gap:56px;align-items:center;
+    position:relative;z-index:1;
+  }
+  .eyebrow-line{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+    font-family:'IBM Plex Mono';font-size:13px;color:var(--amber);
+  }
+  .eyebrow-line .dot{width:7px;height:7px;background:var(--green);border-radius:50%;flex-shrink:0;}
+  .hero h1{
+    font-size:clamp(34px,5vw,52px);
+    line-height:1.08;
+    font-weight:600;
+    max-width:11ch;
+  }
+  .hero p.lede{
+    font-size:17px;color:#C7CEDA;max-width:46ch;margin:20px 0 28px;
+  }
+  .hero-actions{display:flex;gap:14px;flex-wrap:wrap;}
+  .btn-primary{
+    background:var(--amber);color:var(--ink);padding:14px 26px;
+    font-weight:600;font-size:15px;border:none;cursor:pointer;text-decoration:none;
+    display:inline-block;
+  }
+  .btn-primary:hover{background:var(--amber-dark);}
+  .btn-ghost{
+    border:1px solid var(--line);color:var(--paper);padding:14px 26px;
+    font-weight:500;font-size:15px;text-decoration:none;display:inline-block;
+    background:transparent;
+  }
+  .btn-ghost:hover{border-color:var(--grey);}
+
+  /* ticket mock */
+  .ticket{
+    background:var(--paper);color:var(--ink);
+    padding:0;
+    box-shadow:0 24px 60px -12px rgba(0,0,0,0.5);
+    position:relative;
+    transform:rotate(1.2deg);
+  }
+  .ticket-head{
+    background:var(--ink);color:var(--paper);
+    padding:14px 20px;
+    display:flex;justify-content:space-between;align-items:center;
+  }
+  .ticket-head .label{font-family:'IBM Plex Mono';font-size:12px;letter-spacing:0.04em;color:var(--grey);}
+  .ticket-head .num{font-family:'IBM Plex Mono';font-size:14px;color:var(--amber);}
+  .ticket-body{padding:22px 20px;}
+  .ticket-row{
+    display:flex;justify-content:space-between;gap:16px;
+    padding:11px 0;border-bottom:1px dashed #C9C1AE;
+    font-size:14px;
+  }
+  .ticket-row:last-of-type{border-bottom:none;}
+  .ticket-row .k{color:#5B5748;font-family:'IBM Plex Mono';font-size:12px;padding-top:2px;}
+  .ticket-row .v{text-align:right;font-weight:500;max-width:60%;}
+  .status-pill{
+    display:inline-flex;align-items:center;gap:7px;
+    font-family:'IBM Plex Mono';font-size:12px;font-weight:500;
+    color:var(--green);
+  }
+  .status-pill .dot{width:7px;height:7px;background:var(--green);border-radius:50%;}
+  .ticket-foot{
+    background:var(--paper-2);padding:14px 20px;
+    font-family:'IBM Plex Mono';font-size:12px;color:#5B5748;
+    display:flex;justify-content:space-between;
+  }
+  @media (max-width:900px){
+    .hero-grid{grid-template-columns:1fr;}
+    .ticket{transform:none;max-width:420px;}
+  }
+
+  /* ---------- TRUST BAR ---------- */
+  .trust{
+    background:var(--paper-2);border-bottom:1px solid #D9D2BE;
+    padding:28px 0;
+  }
+  .trust-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:24px;text-align:center;
+  }
+  .trust-num{font-family:'Oswald';font-size:30px;font-weight:600;color:var(--slate);}
+  .trust-label{font-size:13px;color:#5B5748;margin-top:2px;}
+  @media (max-width:700px){.trust-grid{grid-template-columns:repeat(2,1fr);row-gap:24px;}}
+
+  /* ---------- SERVICES ---------- */
+  .section{padding:88px 0;}
+  .section-head{max-width:56ch;margin-bottom:44px;}
+  .section-head .kicker{font-family:'IBM Plex Mono';font-size:13px;color:var(--amber-dark);margin-bottom:10px;}
+  .section-head h2{font-size:clamp(26px,3.4vw,36px);font-weight:600;}
+  .section-head p{color:#4A4638;margin-top:12px;font-size:15.5px;max-width:52ch;}
+
+  .price-sheet{border-top:1px solid var(--ink);}
+  .price-row{
+    display:flex;justify-content:space-between;align-items:baseline;gap:20px;
+    padding:20px 0;border-bottom:1px solid #D9D2BE;
+  }
+  .price-row .name{font-size:18px;font-weight:500;}
+  .price-row .desc{font-size:14px;color:#5B5748;margin-top:4px;max-width:52ch;}
+  .price-row .price{
+    font-family:'IBM Plex Mono';font-size:16px;white-space:nowrap;color:var(--slate);
+    font-weight:500;
+  }
+
+  /* ---------- PROCESS ---------- */
+  .process-list{
+    counter-reset:step;
+    display:grid;grid-template-columns:repeat(5,1fr);gap:0;
+    border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);
+  }
+  .process-item{
+    padding:26px 18px 22px;border-left:1px solid #D9D2BE;position:relative;
+  }
+  .process-item:first-child{border-left:none;}
+  .process-item::before{
+    counter-increment:step;
+    content: counter(step, decimal-leading-zero);
+    font-family:'IBM Plex Mono';font-size:13px;color:var(--amber-dark);display:block;margin-bottom:10px;
+  }
+  .process-item h3{font-size:16px;font-weight:500;margin-bottom:6px;}
+  .process-item p{font-size:13.5px;color:#5B5748;}
+  @media (max-width:900px){
+    .process-list{grid-template-columns:1fr 1fr;}
+    .process-item:nth-child(3){border-left:none;}
+  }
+  @media (max-width:560px){
+    .process-list{grid-template-columns:1fr;}
+    .process-item{border-left:none;border-top:1px solid #D9D2BE;}
+    .process-item:first-child{border-top:none;}
+  }
+
+  /* ---------- TESTIMONIALS ---------- */
+  .testi-section{background:var(--slate);color:var(--paper);}
+  .testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);}
+  .testi-card{background:var(--slate);padding:30px 26px;}
+  .testi-card p.quote{font-size:15px;color:#D8DCE4;line-height:1.6;margin-bottom:18px;}
+  .testi-card .who{font-family:'IBM Plex Mono';font-size:12.5px;color:var(--amber);}
+  @media (max-width:800px){.testi-grid{grid-template-columns:1fr;}}
+
+  /* ---------- CONTACT ---------- */
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;}
+  .info-block{margin-bottom:26px;}
+  .info-block .k{font-family:'IBM Plex Mono';font-size:12px;color:var(--amber-dark);margin-bottom:6px;}
+  .info-block .v{font-size:15px;}
+  .hours-row{display:flex;justify-content:space-between;font-size:14px;padding:7px 0;border-bottom:1px solid #D9D2BE;}
+  .hours-row:last-child{border-bottom:none;}
+
+  form{display:flex;flex-direction:column;gap:16px;}
+  .field label{
+    display:block;font-family:'IBM Plex Mono';font-size:12px;color:#5B5748;margin-bottom:6px;
+  }
+  .field input, .field select, .field textarea{
+    width:100%;padding:12px 14px;border:1px solid #C9C1AE;background:#fff;
+    font-family:'Inter';font-size:14.5px;color:var(--ink);
+  }
+  .field textarea{resize:vertical;min-height:90px;}
+  .field input:focus, .field select:focus, .field textarea:focus{border-color:var(--slate);}
+  .row-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .submit-btn{
+    background:var(--ink);color:var(--paper);padding:14px 26px;border:none;
+    font-weight:600;font-size:15px;cursor:pointer;align-self:flex-start;margin-top:4px;
+  }
+  .submit-btn:hover{background:var(--slate);}
+  .form-note{font-size:12.5px;color:#5B5748;margin-top:2px;}
+  @media (max-width:800px){.contact-grid{grid-template-columns:1fr;}}
+
+  /* ---------- FOOTER ---------- */
+  footer{background:var(--ink);color:#9098A6;padding:40px 0;}
+  .footer-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;font-size:13px;}
+  .footer-links{display:flex;gap:22px;}
+  .footer-links a{text-decoration:none;color:#9098A6;}
+  .footer-links a:hover{color:var(--paper);}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="brand">
+      <div class="brand-mark">SL</div>
+      <div class="brand-name">Steadfast Laptop Repair</div>
+    </div>
+    <div class="nav-links">
+      <a href="#services">Services</a>
+      <a href="#process">Process</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <a href="https://wa.me/919972345808?text=Hi%2C%20I%27d%20like%20to%20book%20a%20laptop%20repair%20diagnostic." class="nav-cta" target="_blank">Book on WhatsApp</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow-line"><span class="dot"></span>Open now · Same-day diagnostics</div>
+      <h1>Your laptop, fixed right the first time.</h1>
+      <p class="lede">Screen cracks, dead batteries, spilled coffee, slow start-ups — we visit you for a ₹499 diagnostic and give a firm quote before we touch anything. Waived if you go ahead with the repair.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn-primary">Book a diagnostic</a>
+        <a href="#services" class="btn-ghost">See pricing</a>
+      </div>
+    </div>
+    <div class="ticket">
+      <div class="ticket-head">
+        <span class="label">WORK ORDER</span>
+        <span class="num">#0421</span>
+      </div>
+      <div class="ticket-body">
+        <div class="ticket-row"><span class="k">DEVICE</span><span class="v">Dell XPS 13 (9310)</span></div>
+        <div class="ticket-row"><span class="k">ISSUE</span><span class="v">Won't power on — suspect battery</span></div>
+        <div class="ticket-row"><span class="k">DIAGNOSIS</span><span class="v">Swollen battery, no board damage</span></div>
+        <div class="ticket-row"><span class="k">QUOTE</span><span class="v mono">₹6,999 · approved</span></div>
+        <div class="ticket-row"><span class="k">STATUS</span>
+          <span class="v"><span class="status-pill"><span class="dot"></span>Ready for pickup</span></span>
+        </div>
+      </div>
+      <div class="ticket-foot">
+        <span>IN: Tue 9:12 AM</span>
+        <span>OUT: Tue 4:40 PM</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="trust">
+  <div class="wrap trust-grid">
+    <div><div class="trust-num">6 yrs</div><div class="trust-label">Serving this neighbourhood</div></div>
+    <div><div class="trust-num">6,200+</div><div class="trust-label">Laptops repaired</div></div>
+    <div><div class="trust-num">Same-day</div><div class="trust-label">On most common repairs</div></div>
+    <div><div class="trust-num">Certified</div><div class="trust-label">Technicians on every job</div></div>
+  </div>
+</div>
+
+<section class="section" id="services">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Price sheet</div>
+      <h2>Flat, upfront pricing</h2>
+      <p>No surprise fees. Every job starts with a ₹499 diagnostic (waived if you approve the repair), and we call with a quote before any work begins. Prices below are starting rates — final cost depends on your model.</p>
+    </div>
+    <div class="price-sheet">
+      <div class="price-row">
+        <div><div class="name">Diagnostic check</div><div class="desc">Full hardware and software check-up. Waived if you approve the repair.</div></div>
+        <div class="price">₹499</div>
+      </div>
+      <div class="price-row">
+        <div><div class="name">Screen replacement</div><div class="desc">Cracked, flickering, or dead displays — most brands in stock.</div></div>
+        <div class="price">from ₹8,000</div>
+      </div>
+      <div class="price-row">
+        <div><div class="name">Battery replacement</div><div class="desc">Won't hold a charge, swollen, or draining fast.</div></div>
+        <div class="price">from ₹5,800</div>
+      </div>
+      <div class="price-row">
+        <div><div class="name">Keyboard replacement</div><div class="desc">Sticky, missing, or unresponsive keys, including liquid damage.</div></div>
+        <div class="price">from ₹4,000</div>
+      </div>
+      <div class="price-row">
+        <div><div class="name">Virus &amp; malware removal</div><div class="desc">Deep clean plus a walkthrough on avoiding repeat infections.</div></div>
+        <div class="price">from ₹999</div>
+      </div>
+      <div class="price-row">
+        <div><div class="name">Data recovery</div><div class="desc">Retrieve files from drives that won't boot or have failed.</div></div>
+        <div class="price">from ₹3,499</div>
+      </div>
+      <div class="price-row">
+        <div><div class="name">Hinge &amp; chassis repair</div><div class="desc">Loose or broken hinges, cracked casing, bent frames.</div></div>
+        <div class="price">from ₹2,299</div>
+      </div>
+      <div class="price-row">
+        <div><div class="name">Tune-up &amp; setup</div><div class="desc">Speed up a slow machine or set up a new one from scratch.</div></div>
+        <div class="price">from ₹1,199</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="process" style="padding-top:0;">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">How it works</div>
+      <h2>Five steps, start to finish</h2>
+    </div>
+    <div class="process-list">
+      <div class="process-item"><h3>We visit you</h3><p>Message us your address and issue — we come to you for the diagnosis.</p></div>
+      <div class="process-item"><h3>₹499 diagnostic</h3><p>We find the actual problem, usually within a few hours. Waived if you repair with us.</p></div>
+      <div class="process-item"><h3>You approve the quote</h3><p>Flat price, no work starts until you say go.</p></div>
+      <div class="process-item"><h3>We repair it</h3><p>Genuine or high-grade parts, tested before reassembly.</p></div>
+      <div class="process-item"><h3>Pick up, tested</h3><p>Full run-through with you before you leave the counter.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="testi-section" id="reviews">
+  <div class="wrap" style="padding:80px 24px;">
+    <div class="section-head" style="color:var(--paper);">
+      <div class="kicker" style="color:var(--amber);">Reviews</div>
+      <h2 style="color:var(--paper);">What people bring us, and what they say after</h2>
+    </div>
+  </div>
+  <div class="testi-grid">
+    <div class="testi-card">
+      <p class="quote">Spilled coffee straight into the keyboard the night before a deadline. They had it working again by 3pm the next day.</p>
+      <div class="who">— MARISA T., ThinkPad T14</div>
+    </div>
+    <div class="testi-card">
+      <p class="quote">Called two other shops first who wanted to charge for the diagnostic alone. This place quoted me on the spot and beat both prices.</p>
+      <div class="who">— DAVID O., MacBook Air</div>
+    </div>
+    <div class="testi-card">
+      <p class="quote">My laptop was basically a paperweight from a cracked screen. Fixed in an afternoon and it's been solid for eight months since.</p>
+      <div class="who">— PRIYA K., ASUS ZenBook</div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="contact">
+  <div class="wrap contact-grid">
+    <div>
+      <div class="section-head">
+        <div class="kicker">Visit or send it in</div>
+        <h2>Book your diagnostic</h2>
+        <p>Tell us what's going on and where you are — we'll come to you for the diagnosis.</p>
+      </div>
+      <div class="info-block">
+        <div class="k">SHOP ADDRESS</div>
+        <div class="v">Sri Lakshmana Nilayam, 155/C, Mangammanapalya · Near Muneshwara Temple · Bengaluru, KA 560068</div>
+      </div>
+      <div class="info-block">
+        <div class="k">PHONE / EMAIL</div>
+        <div class="v">+91 99723 45808 · Karimabdul42396@gmail.com</div>
+      </div>
+      <div class="info-block">
+        <div class="k">HOURS</div>
+        <div class="hours-row"><span>Monday – Friday</span><span class="mono">9:00 AM – 6:30 PM</span></div>
+        <div class="hours-row"><span>Saturday</span><span class="mono">10:00 AM – 4:00 PM</span></div>
+        <div class="hours-row"><span>Sunday</span><span class="mono">Closed</span></div>
+      </div>
+    </div>
+    <div>
+      <form onsubmit="event.preventDefault();
+        const name=document.getElementById('fname').value;
+        const phone=document.getElementById('fphone').value;
+        const device=document.getElementById('fdevice').value;
+        const addr=document.getElementById('faddr').value;
+        const issue=document.getElementById('fissue').value;
+        const msg=`Hi, I'd like to book a diagnostic visit.%0AName: ${encodeURIComponent(name)}%0APhone: ${encodeURIComponent(phone)}%0AAddress: ${encodeURIComponent(addr)}%0ADevice: ${encodeURIComponent(device)}%0AIssue: ${encodeURIComponent(issue)}`;
+        window.open(`https://wa.me/919972345808?text=${msg}`, '_blank');
+        document.getElementById('form-success').style.display='block';
+        this.style.display='none';">
+        <div class="row-2">
+          <div class="field"><label for="fname">Name</label><input id="fname" type="text" required></div>
+          <div class="field"><label for="fphone">Phone</label><input id="fphone" type="tel" required></div>
+        </div>
+        <div class="field"><label for="faddr">Your address</label><input id="faddr" type="text" placeholder="Where should we come for the visit?" required></div>
+        <div class="field"><label for="fdevice">Device make &amp; model</label><input id="fdevice" type="text" placeholder="e.g. Dell XPS 13, MacBook Pro 2021"></div>
+        <div class="field"><label for="fissue">What's wrong?</label><textarea id="fissue" placeholder="Describe the issue as best you can"></textarea></div>
+        <button type="submit" class="submit-btn">Send via WhatsApp</button>
+        <p class="form-note">Opens WhatsApp with your details filled in — send it to reach us directly.</p>
+      </form>
+      <div id="form-success" style="display:none;padding:20px;background:var(--paper-2);border-left:3px solid var(--green);">
+        <strong>Almost done.</strong> Send the WhatsApp message that just opened and we'll get back to you shortly.
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-inner">
+    <div>© 2026 Steadfast Laptop Repair. All rights reserved.</div>
+    <div class="footer-links">
+      <a href="#services">Services</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
